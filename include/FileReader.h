@@ -15,7 +15,7 @@ using namespace std;
 
 vector<string> fileReader(const string& f_name);
 
-vector<DeliveryMan> *getDeliveryManFromFiles(string f1);
+vector<DeliveryMan> *getDeliveryManFromFiles(const string& f1);
 
 vector<Package> *getPackagesFromFiles(const string& f2);
 

@@ -29,7 +29,7 @@ vector<string> fileReader(const string& f_name) {
     return v1;
 }
 
-vector<DeliveryMan> *getDeliveryManFromFiles(string f1) {
+vector<DeliveryMan> *getDeliveryManFromFiles(const string& f1) {
 
     vector<DeliveryMan> * deliveryman = new vector<DeliveryMan>;
     vector<string> inputsFromFile;
