@@ -1,5 +1,7 @@
 # ninja log v5
-0	51	1648756957104591955	CMakeFiles/projeto1.dir/src/DeliveryMan.cpp.o	75d647f0837880e7
-1	51	1648756957104591955	CMakeFiles/projeto1.dir/src/Package.cpp.o	d78319f5df1e9aa4
 0	594	1648756957644579896	CMakeFiles/projeto1.dir/main.cpp.o	5ce03b71d7974b7b
+1	51	1648756957104591955	CMakeFiles/projeto1.dir/src/Package.cpp.o	d78319f5df1e9aa4
 595	701	1648756957752577484	projeto1	5c77e2b0d16c7cda
+0	51	1648756957104591955	CMakeFiles/projeto1.dir/src/DeliveryMan.cpp.o	75d647f0837880e7
+1	964	1648758462373475968	CMakeFiles/projeto1.dir/src/FileReader.cpp.o	a2e5c7358a07a5d2
+964	1069	1648758462477479163	projeto1	c450d7cdcb105152
