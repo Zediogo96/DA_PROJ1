@@ -31,7 +31,7 @@ vector<string> fileReader(const string& f_name) {
 
 vector<DeliveryMan> *getDeliveryManFromFiles(const string& f1) {
 
-    vector<DeliveryMan> * deliveryman = new vector<DeliveryMan>;
+    auto * deliveryman = new vector<DeliveryMan>;
     vector<string> inputsFromFile;
 
     unsigned maxV, maxW, cost;
@@ -50,7 +50,7 @@ vector<DeliveryMan> *getDeliveryManFromFiles(const string& f1) {
 }
 
 vector<Package> *getPackagesFromFiles(const string& f2) {
-    vector<Package> * packages = new vector<Package>;
+    auto * packages = new vector<Package>;
     vector<string> inputsFromFile;
 
     unsigned volume, weight, reward, duration;

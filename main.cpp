@@ -1,7 +1,7 @@
 #include "include/FileReader.h"
+#include "include/Application.h"
 
 #include <iostream>
-#include <iomanip>
 #include <iterator>
 
 using namespace std;
@@ -36,7 +36,9 @@ int scenery3(const vector<Package>& packages) {
 
 int main() {
 
-    vector<Package> * test;
-    test = getPackagesFromFiles("../input/package.txt");
-    cout << scenery3(*test);
+    Application * app = Application::getInstance();
+
+    app->loadData();
+
+    cout << scenery3(* app->getPackages());
 }
