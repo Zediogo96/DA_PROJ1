@@ -102,6 +102,18 @@ build CMakeFiles/projeto1.dir/src/Application.cpp.o: CXX_COMPILER__projeto1_Debu
   OBJECT_DIR = CMakeFiles/projeto1.dir
   OBJECT_FILE_DIR = CMakeFiles/projeto1.dir/src
 
+build CMakeFiles/projeto1.dir/src/Menu.cpp.o: CXX_COMPILER__projeto1_Debug /home/zediogo96/Documents/FEUP/DA/projeto1/src/Menu.cpp || cmake_object_order_depends_target_projeto1
+  DEP_FILE = CMakeFiles/projeto1.dir/src/Menu.cpp.o.d
+  FLAGS = -g -std=gnu++23
+  OBJECT_DIR = CMakeFiles/projeto1.dir
+  OBJECT_FILE_DIR = CMakeFiles/projeto1.dir/src
+
+build CMakeFiles/projeto1.dir/src/Starter.cpp.o: CXX_COMPILER__projeto1_Debug /home/zediogo96/Documents/FEUP/DA/projeto1/src/Starter.cpp || cmake_object_order_depends_target_projeto1
+  DEP_FILE = CMakeFiles/projeto1.dir/src/Starter.cpp.o.d
+  FLAGS = -g -std=gnu++23
+  OBJECT_DIR = CMakeFiles/projeto1.dir
+  OBJECT_FILE_DIR = CMakeFiles/projeto1.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target projeto1
@@ -110,7 +122,7 @@ build CMakeFiles/projeto1.dir/src/Application.cpp.o: CXX_COMPILER__projeto1_Debu
 #############################################
 # Link the executable projeto1
 
-build projeto1: CXX_EXECUTABLE_LINKER__projeto1_Debug CMakeFiles/projeto1.dir/main.cpp.o CMakeFiles/projeto1.dir/src/DeliveryMan.cpp.o CMakeFiles/projeto1.dir/src/Package.cpp.o CMakeFiles/projeto1.dir/src/FileReader.cpp.o CMakeFiles/projeto1.dir/src/Application.cpp.o
+build projeto1: CXX_EXECUTABLE_LINKER__projeto1_Debug CMakeFiles/projeto1.dir/main.cpp.o CMakeFiles/projeto1.dir/src/DeliveryMan.cpp.o CMakeFiles/projeto1.dir/src/Package.cpp.o CMakeFiles/projeto1.dir/src/FileReader.cpp.o CMakeFiles/projeto1.dir/src/Application.cpp.o CMakeFiles/projeto1.dir/src/Menu.cpp.o CMakeFiles/projeto1.dir/src/Starter.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/projeto1.dir
   POST_BUILD = :
