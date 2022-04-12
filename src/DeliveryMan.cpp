@@ -12,15 +12,15 @@ DeliveryMan::DeliveryMan(unsigned int maxV, unsigned int maxW, unsigned int cost
 
 DeliveryMan::~DeliveryMan() = default;
 
-unsigned DeliveryMan::getMaxVolume() {
+unsigned DeliveryMan::getMaxVolume() const {
     return this->maxVolume;
 }
 
-unsigned DeliveryMan::getMaxWeight() {
+unsigned DeliveryMan::getMaxWeight() const {
     return this->maxWeight;
 }
 
-unsigned DeliveryMan::getCost() {
+unsigned DeliveryMan::getCost() const {
     return this->cost;
 }
 

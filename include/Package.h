@@ -13,6 +13,7 @@ private:
     unsigned weight;
     unsigned reward;
     unsigned duration;
+    bool used;
 
 public:
 
@@ -34,25 +35,30 @@ public:
      * Returns Package associated Volume
      * @return Volume parameter
      */
-    unsigned getVolume();
+    unsigned getVolume() const;
 
     /**
      * Returns Package associated Weight
      * @return Weight parameter
      */
-    unsigned getWeight();
+    unsigned getWeight() const;
 
     /**
      * Returns Package associated reward (cost-efficiency?)
      * @return Reward parameter
      */
-    unsigned getReward();
+    unsigned getReward() const;
 
     /**
      * Returns // COMPLETE
      * @return Duration parameter
      */
-    unsigned getDuration();
+    unsigned getDuration() const;
+
+
+    void setUsed(bool b);
+
+    bool getUsed() const;
 
 
 

@@ -6,6 +6,7 @@
 #define PROJETO1_APPLICATION_H
 
 #include "FileReader.h"
+#include <algorithm>
 
 class Application {
 
@@ -32,6 +33,10 @@ public:
 
     vector<DeliveryMan> *getDeliveryMan();
     vector<Package> *getPackages();
+
+    void sorterDeliveryMans(bool ascending);
+
+    void sorterPackages(bool ascending);
 };
 
 

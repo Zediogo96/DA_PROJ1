@@ -26,3 +26,33 @@ Application *Application::getInstance() {
 
     return app;
 }
+
+void Application::sorterDeliveryMans(bool ascending) {
+
+    if (!ascending) {
+        sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan& a, const DeliveryMan& b) {
+            if (a.getMaxWeight() != b.getMaxWeight()) return a.getMaxWeight() > b.getMaxWeight();
+            return a.getMaxVolume() > b.getMaxVolume();
+        });
+    }
+
+    sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan& a, const DeliveryMan& b) {
+        if (a.getMaxWeight() != b.getMaxWeight()) return a.getMaxWeight() < b.getMaxWeight();
+        return a.getMaxVolume() < b.getMaxVolume();
+    });
+}
+
+void Application::sorterPackages(bool ascending) {
+
+    if (!ascending) {
+        sort(this->packages->begin(), this->packages->end(), [&](Package a, Package b) {
+            if (a.getWeight() != b.getWeight()) return a.getWeight() > b.getWeight();
+            return a.getVolume() > b.getVolume();
+        });
+    }
+
+    sort(this->packages->begin(), this->packages->end(), [&](Package a, Package b) {
+        if (a.getWeight() != b.getWeight()) return a.getWeight() < b.getWeight();
+        return a.getVolume() < b.getVolume();
+    });
+}

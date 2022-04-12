@@ -33,19 +33,19 @@ public:
      * Returns DeliveryMan maximum volume supported
      * @return Maximum volume parameter
      */
-    unsigned getMaxVolume();
+    unsigned getMaxVolume() const;
 
     /**
      * Returns DeliveryMan maximum weight supported
      * @return Maximum weight parameter
      */
-    unsigned getMaxWeight();
+    unsigned getMaxWeight() const;
 
     /**
      * Returns DeliveryMan associated cost to deliver
      * @return Cost parameter
      */
-    unsigned getCost();
+    unsigned getCost() const;
 };
 
 

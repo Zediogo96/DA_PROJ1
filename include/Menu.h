@@ -26,17 +26,26 @@ public:
 
     virtual Menu* getNextMenu();
 
-    virtual void setNextMenu(Menu* new_menu) = 0;
+    virtual void setNextMenu(Menu* new_menu);
 };
 
 
 class MainMenu: public Menu {
 public:
-
     explicit MainMenu(Application * application);
     void display() override;
-    void setNextMenu(Menu* new_menu) override;
 };
+
+class Scenery1_Menu: public Menu {
+public:
+
+    explicit Scenery1_Menu(Application *application);
+    void display() override;
+
+    static int Scenery1(const vector<Package>& packages, const vector<DeliveryMan> & deliverymans);
+};
+
+
 
 class Scenery3_Menu: public Menu {
 public:
@@ -45,9 +54,6 @@ public:
     void display() override;
 
     static int Scenery3(const vector<Package>& packages);
-    void setNextMenu(Menu* new_menu) override;
 };
-
-
 
 #endif //PROJETO1_MENU_H
