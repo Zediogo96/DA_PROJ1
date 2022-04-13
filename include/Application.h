@@ -37,6 +37,15 @@ public:
     void sorterDeliveryMans(bool ascending);
 
     void sorterPackages(bool ascending);
+
+
+    /** SCENERY 1 **/
+    int scenery1();
+
+    /** SCENERY 3 **/
+    int scenery3();
+
+    vector<Package> bestfitBT(Shipping &shipping, const vector<Package> packages);
 };
 
 

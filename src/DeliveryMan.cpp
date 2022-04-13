@@ -8,6 +8,7 @@ DeliveryMan::DeliveryMan(unsigned int maxV, unsigned int maxW, unsigned int cost
     this->maxVolume = maxV;
     this->maxWeight = maxW;
     this->cost = cost;
+    this->shipping = new Shipping(maxW, maxV, cost);
 }
 
 DeliveryMan::~DeliveryMan() = default;
@@ -22,6 +23,10 @@ unsigned DeliveryMan::getMaxWeight() const {
 
 unsigned DeliveryMan::getCost() const {
     return this->cost;
+}
+
+Shipping *DeliveryMan::getShipping() {
+    return this->shipping;
 }
 
 

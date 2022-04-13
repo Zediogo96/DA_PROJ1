@@ -5,6 +5,8 @@
 #ifndef PROJETO1_DELIVERYMAN_H
 #define PROJETO1_DELIVERYMAN_H
 
+#include "Shipping.h"
+
 class DeliveryMan {
 
 private:
@@ -12,6 +14,7 @@ private:
     unsigned maxVolume{};
     unsigned maxWeight{};
     unsigned cost{};
+    Shipping * shipping;
 
 public:
 
@@ -46,6 +49,8 @@ public:
      * @return Cost parameter
      */
     unsigned getCost() const;
+
+    Shipping * getShipping();
 };
 
 

@@ -176,7 +176,7 @@ void Scenery3_Menu::display() {
 
     switch ((char) option) {
         case '1':
-            cout << Scenery3(* application->getPackages()) << endl;
+            cout << application->scenery3() << endl;
             break;
         case '2':
             std::cout << "test2 \n";
@@ -188,36 +188,6 @@ void Scenery3_Menu::display() {
         default: std::cout << "Invalid Input \n:";
             system("pause");
     }
-}
-
-int Scenery3_Menu::Scenery3(const vector<Package>& packages) {
-
-    vector<Package> auxVec;
-    vector<Package> expressPackages;
-    unsigned totalWeight = 0;
-
-    auxVec.reserve(packages.size());
-
-    for (const Package& pack : packages) {
-        auxVec.emplace_back(pack);
-    }
-
-    sort(auxVec.begin(), auxVec.end(), [](Package & a,Package & b) {
-        return a.getDuration() < b.getDuration();
-    });
-
-    unsigned timeLeft = 8 * 3600;
-
-    for (const Package& aPackage : auxVec) {
-        if (aPackage.getDuration() <= timeLeft) {
-            expressPackages.push_back(aPackage);
-            timeLeft -= aPackage.getDuration();
-            totalWeight += aPackage.getWeight();
-        }
-        else break;
-    }
-
-    return (int)(((8 * 3600) - timeLeft) / expressPackages.size());
 }
 
 

@@ -45,14 +45,101 @@ void Application::sorterDeliveryMans(bool ascending) {
 void Application::sorterPackages(bool ascending) {
 
     if (!ascending) {
-        sort(this->packages->begin(), this->packages->end(), [&](Package a, Package b) {
+        sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
             if (a.getWeight() != b.getWeight()) return a.getWeight() > b.getWeight();
             return a.getVolume() > b.getVolume();
         });
     }
 
-    sort(this->packages->begin(), this->packages->end(), [&](Package a, Package b) {
+    sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
         if (a.getWeight() != b.getWeight()) return a.getWeight() < b.getWeight();
         return a.getVolume() < b.getVolume();
     });
+}
+
+int Application::scenery1() {
+
+    /*vector<Package> auxVecPack;
+    vector<DeliveryMan> auxVecDel;
+
+    auxVecPack.reserve(packages->size());
+    auxVecDel.reserve(deliverymans->size());*/
+
+    for (auto pck : *packages) pck.setUsed(false);
+
+    int countStaff = 0, countPack = 0;
+
+    /** First loop should be always to iterate through all men? **/
+    for (auto & deliveryman : *deliverymans) {
+
+        deliveryman.getShipping()->clearShipping();
+    }
+
+
+
+    return 0;
+}
+
+
+vector<Package> Application::bestfitBT(Shipping & shipping, const vector<Package> packages_) {
+
+    /** STOP CONDITION **/
+    if (shipping.isFull()) return shipping.getPackages();
+
+    vector<Package> res = shipping.getPackages();
+
+
+
+    for (Package pck : packages_) {
+
+        cout << "Weight: " << shipping.getCurrentWeight() << "Volume" << shipping.getCurrentVol() << endl;
+
+        if (!pck.getUsed() && shipping.fits(pck)) {
+
+            shipping.pushPackage(pck);
+
+            vector<Package> aux = bestfitBT(shipping, packages_);
+
+            if (aux.size() > res.size()) {
+                res = aux;
+                if (res.size() == packages_.size()) return res;
+            }
+
+            else {
+                shipping.removePackage(pck);
+            }
+        }
+    }
+    return res;
+}
+
+int Application::scenery3() {
+
+    vector<Package> auxVec;
+    vector<Package> expressPackages;
+    unsigned totalWeight = 0;
+
+    auxVec.reserve(packages->size());
+
+    for (const Package& pack : *packages) {
+        auxVec.emplace_back(pack);
+    }
+
+    sort(auxVec.begin(), auxVec.end(), [](Package & a,Package & b) {
+        return a.getDuration() < b.getDuration();
+    });
+
+    unsigned timeLeft = 8 * 3600;
+
+    for (const Package& aPackage : auxVec) {
+        if (aPackage.getDuration() <= timeLeft) {
+            expressPackages.push_back(aPackage);
+            timeLeft -= aPackage.getDuration();
+            totalWeight += aPackage.getWeight();
+        }
+        else break;
+    }
+
+    return (int)(((8 * 3600) - timeLeft) / expressPackages.size());
+
 }
