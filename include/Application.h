@@ -38,6 +38,7 @@ public:
 
     void sorterPackages(bool ascending);
 
+    void testSortPackages(bool ascending);
 
     /** SCENERY 1 **/
     int scenery1();
@@ -45,7 +46,7 @@ public:
     /** SCENERY 3 **/
     int scenery3();
 
-    vector<Package> bestfitBT(Shipping &shipping, const vector<Package> packages);
+    vector<Package> bestfitBT(Shipping & shipping, vector<Package> & packages);
 };
 
 

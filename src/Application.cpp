@@ -57,6 +57,18 @@ void Application::sorterPackages(bool ascending) {
     });
 }
 
+void Application::testSortPackages(bool ascending) {
+    if (!ascending) {
+        sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
+            return a.average() > b.average();
+        });
+    }
+
+    sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
+        return a.average() < b.average();
+    });
+}
+
 int Application::scenery1() {
 
     /*vector<Package> auxVecPack;
@@ -75,30 +87,30 @@ int Application::scenery1() {
         deliveryman.getShipping()->clearShipping();
     }
 
-
-
     return 0;
 }
 
 
-vector<Package> Application::bestfitBT(Shipping & shipping, const vector<Package> packages_) {
+vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & packages_) {
+
+    cout << "Weight: " << shipping.getCurrentWeight() << "Volume" << shipping.getCurrentVol() << endl;
 
     /** STOP CONDITION **/
     if (shipping.isFull()) return shipping.getPackages();
 
     vector<Package> res = shipping.getPackages();
 
+    for (int i = 0; i < packages_.size(); i++) {
 
+        if (!packages_[i].getUsed() && shipping.fits(packages_[i])) {
+            cout << packages_[i].getUsed() << " " << packages_[i].getWeight() << " " <<  packages_[i].getVolume() << endl;
 
-    for (Package pck : packages_) {
+            shipping.pushPackage(packages_[i]);
+            packages_[i].setUsed(true);
 
-        cout << "Weight: " << shipping.getCurrentWeight() << "Volume" << shipping.getCurrentVol() << endl;
-
-        if (!pck.getUsed() && shipping.fits(pck)) {
-
-            shipping.pushPackage(pck);
 
             vector<Package> aux = bestfitBT(shipping, packages_);
+
 
             if (aux.size() > res.size()) {
                 res = aux;
@@ -106,8 +118,11 @@ vector<Package> Application::bestfitBT(Shipping & shipping, const vector<Package
             }
 
             else {
-                shipping.removePackage(pck);
+                shipping.removePackage(packages_[i]);
+                packages_[i].setUsed(false);
             }
+
+
         }
     }
     return res;
@@ -143,3 +158,5 @@ int Application::scenery3() {
     return (int)(((8 * 3600) - timeLeft) / expressPackages.size());
 
 }
+
+

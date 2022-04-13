@@ -60,10 +60,7 @@ public:
 
     bool getUsed() const;
 
-
-
-
-
+    double average() const;
 };
 
 
