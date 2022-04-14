@@ -37,7 +37,7 @@ bool Package::getUsed() const {
 }
 
 double Package::average() const {
-    return (weight + volume) / 2.0f;
+    return (double) (weight + volume) / 2.0f;
 }
 
 Package::~Package() = default;

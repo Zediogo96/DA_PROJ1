@@ -51,6 +51,8 @@ public:
     unsigned getCost() const;
 
     Shipping * getShipping();
+
+    double average() const;
 };
 
 

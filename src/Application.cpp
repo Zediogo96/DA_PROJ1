@@ -21,6 +21,14 @@ vector<DeliveryMan> * Application::getDeliveryMan() {
     return this->deliverymans;
 }
 
+size_t Application::getDeliveryManSize() {
+    return this->deliverymans->size();
+}
+
+size_t Application::getPackagesSize() {
+    return this->packages->size();
+}
+
 Application *Application::getInstance() {
     if (app == nullptr) app = new Application();
 
@@ -69,31 +77,45 @@ void Application::testSortPackages(bool ascending) {
     });
 }
 
-int Application::scenery1() {
+void Application::testSortDeliveryman(bool ascending) {
+    if (!ascending) {
+        sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan& a, const DeliveryMan& b) {
+            return a.average() > b.average();
+        });
+    }
 
-    /*vector<Package> auxVecPack;
-    vector<DeliveryMan> auxVecDel;
+    sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan& a, const DeliveryMan& b) {
+        return a.average() < b.average();
+    });
+}
 
-    auxVecPack.reserve(packages->size());
-    auxVecDel.reserve(deliverymans->size());*/
+pair<int, int> Application::scenery1() {
 
     for (auto pck : *packages) pck.setUsed(false);
 
-    int countStaff = 0, countPack = 0;
+    int countStaff = 0; size_t countPack = packages->size();
+
+    vector<Package> auxVec = *app->getPackages();
 
     /** First loop should be always to iterate through all men? **/
     for (auto & deliveryman : *deliverymans) {
 
         deliveryman.getShipping()->clearShipping();
+
+        vector<Package> aux = bestfitBT(*deliveryman.getShipping(), auxVec);
+
+        if (!aux.empty()) {
+            countStaff++;
+            countPack -= aux.size();
+        }
     }
-
-    return 0;
+    /*cout << "Num Staff: " << countStaff << ", Num Packages: Remaining " << countPack << endl;*/
+    return make_pair(countStaff, countPack);
 }
-
 
 vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & packages_) {
 
-    cout << "Weight: " << shipping.getCurrentWeight() << "Volume" << shipping.getCurrentVol() << endl;
+    /*cout << "Weight: " << shipping.getCurrentWeight() << "Volume" << shipping.getCurrentVol() << endl;*/
 
     /** STOP CONDITION **/
     if (shipping.isFull()) return shipping.getPackages();
@@ -103,26 +125,20 @@ vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & pa
     for (int i = 0; i < packages_.size(); i++) {
 
         if (!packages_[i].getUsed() && shipping.fits(packages_[i])) {
-            cout << packages_[i].getUsed() << " " << packages_[i].getWeight() << " " <<  packages_[i].getVolume() << endl;
+           /* cout << packages_[i].getUsed() << " " << packages_[i].getWeight() << " " <<  packages_[i].getVolume() << endl;*/
 
             shipping.pushPackage(packages_[i]);
             packages_[i].setUsed(true);
 
-
             vector<Package> aux = bestfitBT(shipping, packages_);
-
 
             if (aux.size() > res.size()) {
                 res = aux;
-                if (res.size() == packages_.size()) return res;
             }
-
             else {
                 shipping.removePackage(packages_[i]);
                 packages_[i].setUsed(false);
             }
-
-
         }
     }
     return res;
@@ -144,6 +160,7 @@ int Application::scenery3() {
         return a.getDuration() < b.getDuration();
     });
 
+    /** Because time in files is in seconds **/
     unsigned timeLeft = 8 * 3600;
 
     for (const Package& aPackage : auxVec) {

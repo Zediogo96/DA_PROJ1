@@ -17,6 +17,7 @@ protected:
     static Application * app;
 
     vector<DeliveryMan> * deliverymans{};
+
     vector<Package> * packages{};
 
 public:
@@ -30,9 +31,13 @@ public:
 
     static Application *getInstance();
 
-
     vector<DeliveryMan> *getDeliveryMan();
+
     vector<Package> *getPackages();
+
+    size_t getDeliveryManSize();
+
+    size_t getPackagesSize();
 
     void sorterDeliveryMans(bool ascending);
 
@@ -41,13 +46,16 @@ public:
     void testSortPackages(bool ascending);
 
     /** SCENERY 1 **/
-    int scenery1();
+    pair<int, int> scenery1();
 
     /** SCENERY 3 **/
     int scenery3();
 
     vector<Package> bestfitBT(Shipping & shipping, vector<Package> & packages);
-};
 
+    void testSortDeliveryman(bool ascending);
+
+
+};
 
 #endif //PROJETO1_APPLICATION_H

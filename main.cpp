@@ -5,6 +5,7 @@
 using namespace std;
 
 void test_scen2() {
+
     Application * app = Application::getInstance();
     app->loadData();
 
@@ -18,21 +19,14 @@ void test_scen2() {
         cout << tmp2.getWeight() << " " << tmp2.getVolume() << endl;
     }
 
-    cout << "[" << tmp.getMaxWeight() << "]      " << "[" << tmp.getMaxVolume() << "]" << endl;
-
-    app->bestfitBT(*tmp.getShipping(), auxVec);
+    app->scenery1();
 }
 
 int main() {
 
-    /* Application * app = Application::getInstance();
-    app->loadData();
-
     // APP STARTER NORMAL
     Starter starter = Starter();
-    starter.start();*/
-
-    test_scen2();
+    starter.start();
 
     return 0;
 }

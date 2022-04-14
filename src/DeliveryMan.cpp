@@ -29,6 +29,10 @@ Shipping *DeliveryMan::getShipping() {
     return this->shipping;
 }
 
+double DeliveryMan::average() const {
+    return (double)(maxWeight + maxVolume) / 2.0f;
+}
+
 
 
 

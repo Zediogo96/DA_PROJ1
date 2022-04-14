@@ -80,11 +80,13 @@ void Scenery1_Menu::display() {
     std::cin >> option;
 
     switch ((char) option) {
-        case '1':
-            application->sorterDeliveryMans(true);
-            application->sorterPackages(true);
-            cout << Scenery1(* application->getPackages(), *application->getDeliveryMan()) << endl;
+        case '1': {
+            pair<int, int> res = application->scenery1();
+            cout << "There were needed " << res.first << " delivery staff (out of " << application->getDeliveryManSize()
+                 << " total), and there were " <<
+                 res.second << " packages left to deliver." << endl;
             break;
+        }
         case '2':
             std::cout << "test2 \n";
             break;
@@ -176,7 +178,8 @@ void Scenery3_Menu::display() {
 
     switch ((char) option) {
         case '1':
-            cout << application->scenery3() << endl;
+            cout << "From 9h00 to 17h00, delivering the packages with the lowest durations, you are able to deliver: " << application->scenery3()
+            << " packages, out of " << application->getPackagesSize() << " in total." << endl;
             break;
         case '2':
             std::cout << "test2 \n";
