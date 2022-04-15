@@ -4,6 +4,14 @@
 
 #include "../include/Menu.h"
 
+
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
+
 Menu::Menu(Application * application) {};
 
 Menu::~Menu() = default;
@@ -85,6 +93,7 @@ void Scenery1_Menu::display() {
             cout << "There were needed " << res.first << " delivery staff (out of " << application->getDeliveryManSize()
                  << " total), and there were " <<
                  res.second << " packages left to deliver." << endl;
+                 sleep(2);
             break;
         }
         case '2':
@@ -180,6 +189,7 @@ void Scenery3_Menu::display() {
         case '1':
             cout << "From 9h00 to 17h00, delivering the packages with the lowest durations, you are able to deliver: " << application->scenery3()
             << " packages, out of " << application->getPackagesSize() << " in total." << endl;
+            sleep(2);
             break;
         case '2':
             std::cout << "test2 \n";
