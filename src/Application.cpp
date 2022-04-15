@@ -4,6 +4,8 @@
 
 #include "../include/Application.h"
 
+#include <cmath>
+
 Application::Application() = default;
 
 Application* Application::app = nullptr;
@@ -68,12 +70,16 @@ void Application::sorterPackages(bool ascending) {
 void Application::testSortPackages(bool ascending) {
     if (!ascending) {
         sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
-            return a.average() > b.average();
+            double weight1 = sqrt(pow(a.getVolume(), 2) + pow(a.getWeight(), 2));
+            double weight2 = sqrt(pow(b.getVolume(), 2) + pow(b.getWeight(), 2));
+            return weight1 > weight2;
         });
     }
 
     sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
-        return a.average() < b.average();
+        double weight1 = sqrt(pow(a.getVolume(), 2) + pow(a.getWeight(), 2));
+        double weight2 = sqrt(pow(b.getVolume(), 2) + pow(b.getWeight(), 2));
+        return weight1 < weight2;
     });
 }
 
@@ -125,12 +131,18 @@ pair<int, int> Application::scenery1() {
 
     for (auto pck : *packages) pck.setUsed(false);
 
+    for (auto tmp : *deliverymans) tmp.getShipping()->clearShipping();
+
     int countStaff = 0; size_t countPack = packages->size();
 
-    vector<Package> auxVec = *app->getPackages();
+    testSortDeliveryman(false);
+    testSortPackages(true);
+
+    vector<Package> auxVec = *packages;
+    vector<DeliveryMan> auxVecDel = *deliverymans;
 
     /** First loop should be always to iterate through all men? **/
-    for (auto & deliveryman : *deliverymans) {
+    for (auto deliveryman : auxVecDel) {
 
         deliveryman.getShipping()->clearShipping();
 
@@ -145,20 +157,20 @@ pair<int, int> Application::scenery1() {
     return make_pair(countStaff, countPack);
 }
 
-pair<int, int> Application::scenery2() {
+pair<int, pair <int, int>> Application::scenery2() {
 
     for (auto pck : *packages) pck.setUsed(false);
 
     int countStaff = 0; size_t countPack = packages->size();
 
-    sorterDeliveryMans(true);
-    sorterPackages(false);
+    costSortDeliveryMan(true);
+    rewardSortPackages(false);
 
-    vector<Package> auxVec = *app->getPackages();
-    vector<DeliveryMan> auxVecDel = *app->getDeliveryMan();
+    vector<Package> auxVec = *packages;
+    vector<DeliveryMan> auxVecDel = *deliverymans;
 
     /** First loop should be always to iterate through all men? **/
-    for (auto & deliveryman : auxVecDel) {
+    for (auto deliveryman : auxVecDel) {
 
         countStaff++;
 
@@ -176,18 +188,14 @@ pair<int, int> Application::scenery2() {
 
         if (deliveryman.getShipping()->getPackages().empty()) break;
         cout << "--------------------------------------------------------------" << endl;
-
-
     }
-    cout << "Num Staff: " << countStaff << ", Num Packages: Remaining " << countPack << endl;
 
     int total_profit = 0;
     for (auto tmp : auxVecDel) {
         if (!tmp.getShipping()->getPackages().empty())
             total_profit -= (tmp.getCost() - tmp.getShipping()->getCurrentReward());
     }
-    cout << "Total profit: " << total_profit << endl;
-    return make_pair(countStaff, countPack);
+    return make_pair(total_profit, make_pair(countStaff, countPack));
 }
 
 vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & packages_) {
@@ -198,6 +206,8 @@ vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & pa
     if (shipping.isFull()) return shipping.getPackages();
 
     vector<Package> res = shipping.getPackages();
+
+
 
     for (int i = 0; i < packages_.size(); i++) {
 
@@ -211,6 +221,7 @@ vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & pa
 
             if (aux.size() > res.size()) {
                 res = aux;
+                /*if (res.size() == packages_.size()) return res;*/
             }
             else {
                 shipping.removePackage(packages_[i]);

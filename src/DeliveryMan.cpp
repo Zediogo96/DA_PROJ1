@@ -4,7 +4,7 @@
 
 #include "../include/DeliveryMan.h"
 
-DeliveryMan::DeliveryMan(unsigned int maxV, unsigned int maxW, unsigned int cost) {
+DeliveryMan::DeliveryMan(unsigned int maxV, unsigned int maxW, int cost) {
     this->maxVolume = maxV;
     this->maxWeight = maxW;
     this->cost = cost;

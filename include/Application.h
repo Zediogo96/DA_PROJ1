@@ -53,7 +53,7 @@ public:
     pair<int, int> scenery1();
 
     /** SCENERY 2 **/
-    pair<int, int> scenery2();
+    pair<int, pair <int, int>> scenery2();
 
     /** SCENERY 3 **/
     int scenery3();

@@ -59,6 +59,10 @@ bool Shipping::isFull() const {
 
 void Shipping::clearShipping() {
     packages.clear();
+    currentWeight = 0;
+    currentVol = 0;
+    currentReward = 0;
+    fullStatus = false;
 }
 
 bool Shipping::fits(const Package& p) const {

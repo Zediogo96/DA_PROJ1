@@ -132,7 +132,10 @@ void Scenery2_Menu::display() {
 
     switch ((char) option) {
         case '1': {
-            application->scenery2();
+            pair<int, pair<int,int>> res = Application::getInstance()->scenery2();
+            cout << "To maximize profits, there were needed " << res.second.first << " staff (out of " << application->getDeliveryManSize()
+            << " total) delivering packages, leaving " << res.second.second << " to deliver, the total profit was: " << res.first << endl;
+
             sleep(2);
             break;
         }

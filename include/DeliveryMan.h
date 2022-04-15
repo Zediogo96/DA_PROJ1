@@ -13,7 +13,7 @@ private:
 
     unsigned maxVolume{};
     unsigned maxWeight{};
-    unsigned cost{};
+    int cost{};
     Shipping * shipping;
 
 public:
@@ -24,7 +24,7 @@ public:
      * @param maxW maximum weight supported
      * @param cost to transport
      */
-    DeliveryMan(unsigned maxV, unsigned maxW, unsigned cost);
+    DeliveryMan(unsigned maxV, unsigned maxW, int cost);
 
     /**
      * Class destructor to delete the object from memory
