@@ -4,7 +4,7 @@
 
 #include "../include/Package.h"
 
-Package::Package(unsigned int volume, unsigned int weight, unsigned int reward, unsigned int duration) {
+Package::Package(unsigned int volume, unsigned int weight, int reward, unsigned int duration) {
     this->volume = volume;
     this->weight = weight;
     this->reward = reward;
@@ -20,7 +20,7 @@ unsigned Package::getWeight() const {
     return this->weight;
 }
 
-unsigned Package::getReward() const {
+int Package::getReward() const {
     return this->reward;
 }
 

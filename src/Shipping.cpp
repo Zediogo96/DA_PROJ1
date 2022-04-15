@@ -7,11 +7,19 @@
 
 using namespace std;
 
+/**
+ * DESCRIÇÃO
+ * DESCRIÇÃO
+ *
+ * @param maxW
+ * @param maxV
+ * @param cost
+ */
 Shipping::Shipping(unsigned int maxW, unsigned int maxV, unsigned int cost) {
 
     this->maxWeight = maxW;
     this->maxVol = maxV;
-    currentWeight = currentVol = currentProfit = 0;
+    currentWeight = currentVol = currentReward = 0;
     fullStatus = false;
     packages = {};
 }
@@ -68,6 +76,7 @@ void Shipping::removePackage(Package &p) {
     p.setUsed(false);
     this->increaseCurrentWeight(-p.getWeight());
     this->increaseCurrentVol(-p.getVolume());
+    this->incrementCurrentReward(-p.getReward());
 }
 
 void Shipping::pushPackage(Package & p) {
@@ -75,5 +84,16 @@ void Shipping::pushPackage(Package & p) {
     packages.push_back(p);
     this->increaseCurrentWeight(p.getWeight());
     this->increaseCurrentVol(p.getVolume());
+    this->incrementCurrentReward(p.getReward());
 }
+
+int Shipping::getCurrentReward() const {
+    return this->currentReward;
+}
+
+void Shipping::incrementCurrentReward(int r) {
+    this->currentReward += r;
+}
+
+
 

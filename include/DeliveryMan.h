@@ -31,7 +31,6 @@ public:
      */
     ~DeliveryMan();
 
-
     /**
      * Returns DeliveryMan maximum volume supported
      * @return Maximum volume parameter
@@ -48,7 +47,7 @@ public:
      * Returns DeliveryMan associated cost to deliver
      * @return Cost parameter
      */
-    unsigned getCost() const;
+    int getCost() const;
 
     Shipping * getShipping();
 

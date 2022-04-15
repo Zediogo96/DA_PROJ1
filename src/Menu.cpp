@@ -51,7 +51,7 @@ void MainMenu::display() {
             setNextMenu(new Scenery1_Menu(application));
             break;
         case '2':
-            std::cout << "test2 \n";
+            setNextMenu(new Scenery2_Menu(application));
             break;
         case '3':
             setNextMenu(new Scenery3_Menu(application));
@@ -108,7 +108,48 @@ void Scenery1_Menu::display() {
     }
 }
 
-int Scenery1_Menu::Scenery1(const vector<Package> &vecPack, const vector<DeliveryMan> &vecDel) {
+Scenery2_Menu::Scenery2_Menu(Application *application) : Menu(application) {}
+
+void Scenery2_Menu::display() {
+    char option;
+
+    using namespace std;
+
+    cout << std::endl;
+    cout << "_____________________________________" << endl;
+    cout << "|             Scenery 2             |" << endl;
+    cout << "|___________________________________|" << endl;
+    cout << "|                                   |" << endl;
+    cout << "|   [1] Exec                        |" << endl;
+    cout << "|   [2] Print                       |" << endl;
+    cout << "|   [3]                             |" << endl;
+    cout << "|                                   |" << endl;
+    cout << "|   [0] Exit                        |" << endl;
+    cout << "|___________________________________|" << endl;
+
+    std::cout << "Please input your choice: " << std::endl << std::flush;
+    std::cin >> option;
+
+    switch ((char) option) {
+        case '1': {
+            application->scenery2();
+            sleep(2);
+            break;
+        }
+        case '2':
+            std::cout << "test2 \n";
+            break;
+        case '3':
+
+            break;
+        case '0': return;
+        default: std::cout << "Invalid Input \n:";
+            system("pause");
+    }
+
+}
+
+int Scenery1_Menu::Scenery1_alt(const vector<Package> &vecPack, const vector<DeliveryMan> &vecDel) {
 
     size_t m = vecPack.size();
 
@@ -128,7 +169,6 @@ int Scenery1_Menu::Scenery1(const vector<Package> &vecPack, const vector<Deliver
     }
 
     int numberStaff = 0;
-
 
     for (int i = 0; i < auxVecDel.size(); i++) {
 
@@ -193,9 +233,6 @@ void Scenery3_Menu::display() {
             break;
         case '2':
             std::cout << "test2 \n";
-            break;
-        case '3':
-
             break;
         case '0': return;
         default: std::cout << "Invalid Input \n:";

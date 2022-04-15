@@ -21,7 +21,7 @@ unsigned DeliveryMan::getMaxWeight() const {
     return this->maxWeight;
 }
 
-unsigned DeliveryMan::getCost() const {
+int DeliveryMan::getCost() const {
     return this->cost;
 }
 

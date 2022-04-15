@@ -89,6 +89,38 @@ void Application::testSortDeliveryman(bool ascending) {
     });
 }
 
+void Application::rewardSortPackages(bool ascending) {
+    if (!ascending) {
+        sort(this->packages->begin(), this->packages->end(), [&](const Package & a, const Package & b) {
+            int weight1 = a.getReward() / (a.getWeight() + a.getVolume());
+            int weight2 = b.getReward() / (b.getWeight() + b.getVolume());
+            return weight1 > weight2;
+        });
+    }
+
+    sort(this->packages->begin(), this->packages->end(), [&](const Package & a, const Package & b) {
+        int weight1 = a.getReward() / (a.getWeight() + a.getVolume());
+        int weight2 = b.getReward() / (b.getWeight() + b.getVolume());
+        return weight1 < weight2;
+    });
+}
+
+void Application::costSortDeliveryMan(bool ascending) {
+    if (!ascending) {
+        sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan & a, const DeliveryMan & b) {
+            int weight1 = a.getCost() / (a.getMaxWeight() + a.getMaxVolume());
+            int weight2 = b.getCost() / (b.getMaxWeight() + b.getMaxVolume());
+            return weight1 > weight2;
+        });
+    }
+
+    sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan & a, const DeliveryMan & b) {
+        int weight1 = a.getCost() / (a.getMaxWeight() + a.getMaxVolume());
+        int weight2 = b.getCost() / (b.getMaxWeight() + b.getMaxVolume());
+        return weight1 < weight2;
+    });
+}
+
 pair<int, int> Application::scenery1() {
 
     for (auto pck : *packages) pck.setUsed(false);
@@ -110,6 +142,51 @@ pair<int, int> Application::scenery1() {
         }
     }
     /*cout << "Num Staff: " << countStaff << ", Num Packages: Remaining " << countPack << endl;*/
+    return make_pair(countStaff, countPack);
+}
+
+pair<int, int> Application::scenery2() {
+
+    for (auto pck : *packages) pck.setUsed(false);
+
+    int countStaff = 0; size_t countPack = packages->size();
+
+    sorterDeliveryMans(true);
+    sorterPackages(false);
+
+    vector<Package> auxVec = *app->getPackages();
+    vector<DeliveryMan> auxVecDel = *app->getDeliveryMan();
+
+    /** First loop should be always to iterate through all men? **/
+    for (auto & deliveryman : auxVecDel) {
+
+        countStaff++;
+
+        deliveryman.getShipping()->clearShipping();
+
+        for (size_t i = 0; i < auxVec.size(); i++) {
+            if (!deliveryman.getShipping()->isFull() && deliveryman.getShipping()->fits(auxVec[i]) && !auxVec[i].getUsed()) {
+                countPack--;
+                deliveryman.getShipping()->pushPackage(auxVec[i]);
+                cout << "Weight: " << deliveryman.getShipping()->getCurrentWeight() << " Volume: " << deliveryman.getShipping()->getCurrentVol() <<
+                " Cost: " << (deliveryman.getCost() - deliveryman.getShipping()->getCurrentReward()) << endl;
+
+            }
+        }
+
+        if (deliveryman.getShipping()->getPackages().empty()) break;
+        cout << "--------------------------------------------------------------" << endl;
+
+
+    }
+    cout << "Num Staff: " << countStaff << ", Num Packages: Remaining " << countPack << endl;
+
+    int total_profit = 0;
+    for (auto tmp : auxVecDel) {
+        if (!tmp.getShipping()->getPackages().empty())
+            total_profit -= (tmp.getCost() - tmp.getShipping()->getCurrentReward());
+    }
+    cout << "Total profit: " << total_profit << endl;
     return make_pair(countStaff, countPack);
 }
 
@@ -173,7 +250,6 @@ int Application::scenery3() {
     }
 
     return (int)(((8 * 3600) - timeLeft) / expressPackages.size());
-
 }
 
 

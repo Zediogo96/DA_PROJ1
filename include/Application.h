@@ -45,8 +45,15 @@ public:
 
     void testSortPackages(bool ascending);
 
+    void rewardSortPackages(bool ascending);
+
+    void costSortDeliveryMan(bool ascending);
+
     /** SCENERY 1 **/
     pair<int, int> scenery1();
+
+    /** SCENERY 2 **/
+    pair<int, int> scenery2();
 
     /** SCENERY 3 **/
     int scenery3();
@@ -54,8 +61,6 @@ public:
     vector<Package> bestfitBT(Shipping & shipping, vector<Package> & packages);
 
     void testSortDeliveryman(bool ascending);
-
-
 };
 
 #endif //PROJETO1_APPLICATION_H

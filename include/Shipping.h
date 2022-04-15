@@ -23,8 +23,7 @@ private:
 
     unsigned maxVol;
     unsigned currentVol;
-
-    int currentProfit;
+    int currentReward;
 
     bool fullStatus;
 
@@ -35,6 +34,8 @@ public:
     unsigned getCurrentWeight() const;
     unsigned getMaxVol() const;
     unsigned getCurrentVol() const;
+
+    int getCurrentCost() const;
 
     /** unsigned getShippingSize(); **/
 
@@ -50,6 +51,10 @@ public:
     void removePackage(Package & p);
 
     void pushPackage(Package &p);
+
+    int getCurrentReward() const;
+
+    void incrementCurrentReward(int r);
 };
 
 

@@ -11,7 +11,7 @@ private:
 
     unsigned volume;
     unsigned weight;
-    unsigned reward;
+    int reward;
     unsigned duration;
     bool used;
 
@@ -24,7 +24,7 @@ public:
      * @param reward
      * @param duration
      */
-    Package(unsigned volume, unsigned weight, unsigned reward, unsigned duration);
+    Package(unsigned volume, unsigned weight, int reward, unsigned duration);
 
     /**
      * Class destructor to delete the object from memory
@@ -47,7 +47,7 @@ public:
      * Returns Package associated reward (cost-efficiency?)
      * @return Reward parameter
      */
-    unsigned getReward() const;
+     int getReward() const;
 
     /**
      * Returns // COMPLETE

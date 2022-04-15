@@ -42,9 +42,16 @@ public:
     explicit Scenery1_Menu(Application *application);
     void display() override;
 
-    static int Scenery1(const vector<Package>& packages, const vector<DeliveryMan> & deliverymans);
+    static int Scenery1_alt(const vector<Package>& packages, const vector<DeliveryMan> & deliverymans);
 };
 
+class Scenery2_Menu: public Menu {
+public:
+
+    explicit Scenery2_Menu(Application *application);
+    void display() override;
+
+};
 
 
 class Scenery3_Menu: public Menu {
