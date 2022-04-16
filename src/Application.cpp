@@ -98,15 +98,15 @@ void Application::testSortDeliveryman(bool ascending) {
 void Application::rewardSortPackages(bool ascending) {
     if (!ascending) {
         sort(this->packages->begin(), this->packages->end(), [&](const Package & a, const Package & b) {
-            int weight1 = a.getReward() / (a.getWeight() + a.getVolume());
-            int weight2 = b.getReward() / (b.getWeight() + b.getVolume());
+            double weight1 = (double) a.getReward() / (a.getWeight() + a.getVolume());
+            double weight2 = (double) b.getReward() / (b.getWeight() + b.getVolume());
             return weight1 > weight2;
         });
     }
 
     sort(this->packages->begin(), this->packages->end(), [&](const Package & a, const Package & b) {
-        int weight1 = a.getReward() / (a.getWeight() + a.getVolume());
-        int weight2 = b.getReward() / (b.getWeight() + b.getVolume());
+        double weight1 = (double) a.getReward() / (a.getWeight() + a.getVolume());
+        double weight2 = (double) b.getReward() / (b.getWeight() + b.getVolume());
         return weight1 < weight2;
     });
 }
@@ -114,15 +114,15 @@ void Application::rewardSortPackages(bool ascending) {
 void Application::costSortDeliveryMan(bool ascending) {
     if (!ascending) {
         sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan & a, const DeliveryMan & b) {
-            int weight1 = a.getCost() / (a.getMaxWeight() + a.getMaxVolume());
-            int weight2 = b.getCost() / (b.getMaxWeight() + b.getMaxVolume());
+            double weight1 = (double) a.getCost() / (a.getMaxWeight() + a.getMaxVolume());
+            double weight2 = (double) b.getCost() / (b.getMaxWeight() + b.getMaxVolume());
             return weight1 > weight2;
         });
     }
 
     sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan & a, const DeliveryMan & b) {
-        int weight1 = a.getCost() / (a.getMaxWeight() + a.getMaxVolume());
-        int weight2 = b.getCost() / (b.getMaxWeight() + b.getMaxVolume());
+        double weight1 = (double) a.getCost() / (a.getMaxWeight() + a.getMaxVolume());
+        double weight2 = (double) b.getCost() / (b.getMaxWeight() + b.getMaxVolume());
         return weight1 < weight2;
     });
 }
