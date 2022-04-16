@@ -135,9 +135,6 @@ pair<int, int> Application::scenery1() {
 
     int countStaff = 0; size_t countPack = packages->size();
 
-    testSortDeliveryman(false);
-    testSortPackages(true);
-
     vector<Package> auxVec = *packages;
     vector<DeliveryMan> auxVecDel = *deliverymans;
 
