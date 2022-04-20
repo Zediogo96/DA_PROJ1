@@ -13,7 +13,7 @@ private:
 
     unsigned maxVolume{};
     unsigned maxWeight{};
-    int cost{};
+    int cost;
     Shipping * shipping;
 
 public:
@@ -52,6 +52,10 @@ public:
     Shipping * getShipping();
 
     double average() const;
+
+    double getWeightLoad() const;
+
+    double getVolumeLoad() const;
 };
 
 

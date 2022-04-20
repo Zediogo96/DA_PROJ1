@@ -4,8 +4,6 @@
 
 #include "../include/Application.h"
 
-#include <cmath>
-
 Application::Application() = default;
 
 Application* Application::app = nullptr;
@@ -70,16 +68,12 @@ void Application::sorterPackages(bool ascending) {
 void Application::testSortPackages(bool ascending) {
     if (!ascending) {
         sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
-            double weight1 = sqrt(pow(a.getVolume(), 2) + pow(a.getWeight(), 2));
-            double weight2 = sqrt(pow(b.getVolume(), 2) + pow(b.getWeight(), 2));
-            return weight1 > weight2;
+            return a.average() > b.average();
         });
     }
 
     sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
-        double weight1 = sqrt(pow(a.getVolume(), 2) + pow(a.getWeight(), 2));
-        double weight2 = sqrt(pow(b.getVolume(), 2) + pow(b.getWeight(), 2));
-        return weight1 < weight2;
+        return a.average() < b.average();
     });
 }
 
@@ -127,41 +121,127 @@ void Application::costSortDeliveryMan(bool ascending) {
     });
 }
 
+vector<int> Application::knapsack_Scenery1(DeliveryMan & deliveryman, vector<Package> & packages_) {
+
+    int maxW = (int)deliveryman.getMaxWeight();
+    int maxV = (int)deliveryman.getMaxVolume();
+
+    /** We use + 1 at the end of each "size" declaration to be able to use index 0 as a "dummy" value **/
+    vector<vector<vector<int>>> dp = vector<vector<vector<int>>>(packages_.size() + 1, vector<vector<int>>(deliveryman.getMaxWeight() + 1, vector<int>(deliveryman.getMaxVolume() + 1, 0)));
+
+    for (int i = 1; i < packages_.size(); i++) {
+        int weight = (int)(packages_.begin() + i - 1)->getWeight(), vol = (int)(packages_.begin() + i - 1)->getVolume(), rew = (int)(packages_.begin() + i - 1)->getReward();
+
+        for (int j = 0; j <= maxW; j++) {
+            for (int k = 0; k <= maxV; k++) {
+                dp[i][j][k] = dp[i - 1][j][k];
+
+                if (j >= weight && k >= vol && dp[i][j][k] < (dp[i - 1][j - weight][k - vol] + 1)) {
+                    dp[i][j][k] = dp[i - 1][j - weight][k - vol] + 1;
+                   /* cout <<dp[i][j][k] << endl;*/
+                }
+            }
+        }
+    }
+
+    int n = (int) packages_.size();
+
+    vector<int> ret;
+
+    while ( n > 0) {
+        if (dp[n][maxW][maxV] != dp[n - 1][maxW][maxV]) {
+            maxW -= (int)(packages_.begin() + (n - 1))->getWeight();
+            maxV -= (int)(packages_.begin() + (n - 1))->getVolume();
+            ret.push_back(n - 1);
+        }
+        n--;
+    }
+    /** Vai retornar os indexs atuais das packages a serem utilizadas **/
+    return ret;
+}
+
 pair<int, int> Application::scenery1() {
+
+    auto start = chrono::steady_clock::now();
 
     for (auto pck : *packages) pck.setUsed(false);
 
-    for (auto tmp : *deliverymans) tmp.getShipping()->clearShipping();
+    for (auto del : *deliverymans) del.getShipping()->clearShipping();
 
-    int countStaff = 0; size_t countPack = packages->size();
+    /** SORTS **/
+    testSortPackages(false);
+    testSortDeliveryman(true);
 
-    vector<Package> auxVec = *packages;
-    vector<DeliveryMan> auxVecDel = *deliverymans;
+    vector<Package> aux = *packages;
 
-    /** First loop should be always to iterate through all men? **/
-    for (auto deliveryman : auxVecDel) {
+    int countStaff = 0, count_pack = (int) packages->size(), count_reward = 0;
 
-        deliveryman.getShipping()->clearShipping();
+    for (auto del : *deliverymans) {
 
-        vector<Package> aux = bestfitBT(*deliveryman.getShipping(), auxVec);
+        auto sort = knapsack_Scenery1(del, aux);
 
-        if (!aux.empty()) {
-            countStaff++;
-            countPack -= aux.size();
+        if (sort.empty()) continue;
+
+        count_reward -= del.getCost();
+
+        for (auto each : sort) {
+            del.getShipping()->pushPackage(aux.at(each));
+            aux.erase(aux.begin() + each);
+        }
+
+        countStaff++;
+        count_pack -= ((int)del.getShipping()->getPackages().size());
+        count_reward += del.getShipping()->getCurrentReward();
+
+    }
+
+
+    auto end = chrono::steady_clock::now();
+
+    cout << "There were needed " << countStaff << " delivery staff (out of " << deliverymans->size()
+         << " total), and there were " << count_pack << " packages left to deliver, acquiring a total profit of: " << count_reward << "." << endl;
+
+    cout << "Algorithm execution time: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " (milli seconds)." << endl;
+
+    return make_pair(countStaff, count_pack);
+
+}
+
+void Application::printDeliveryMan() {
+    int averageV_load = 0 , averageW_load = 0, total = 0;
+
+    for (size_t i = 0; i < deliverymans->size(); i++) {
+
+        if (!deliverymans->at(i).getShipping()->getPackages().empty()) {
+
+            total++;
+            averageV_load += deliverymans->at(i).getVolumeLoad();
+            averageW_load += deliverymans->at(i).getWeightLoad();
+
+
+            cout << "[" << setw(2) << i << "] [Current Weight: " << setw(3)
+                 << deliverymans->at(i).getShipping()->getCurrentWeight() << "/" << deliverymans->at(i).getMaxWeight()
+                 << " (" << setw(3) << deliverymans->at(i).getWeightLoad() << "%)] | " << "[Current Volume: " << setw(3)
+                 << deliverymans->at(i).getShipping()->getCurrentVol()
+                 << "/" << deliverymans->at(i).getMaxVolume() << " (" << setw(3) << deliverymans->at(i).getVolumeLoad()
+                 << "%)]" << endl;
         }
     }
-    /*cout << "Num Staff: " << countStaff << ", Num Packages: Remaining " << countPack << endl;*/
-    return make_pair(countStaff, countPack);
+    cout << endl << setw(2) << "[Average Weight Load: " << averageV_load / total << "% ] [Average Volume Load: " << averageW_load / total << "% ]"<< endl;
 }
 
 pair<int, pair <int, int>> Application::scenery2() {
 
+    auto start = chrono::steady_clock::now();
+
     for (auto pck : *packages) pck.setUsed(false);
+
+    for (auto del : *deliverymans) del.getShipping()->clearShipping();
 
     int countStaff = 0; size_t countPack = packages->size();
 
-    costSortDeliveryMan(true);
-    rewardSortPackages(false);
+    costSortDeliveryMan(false);
+    rewardSortPackages(true);
 
     vector<Package> auxVec = *packages;
     vector<DeliveryMan> auxVecDel = *deliverymans;
@@ -169,47 +249,51 @@ pair<int, pair <int, int>> Application::scenery2() {
     /** First loop should be always to iterate through all men? **/
     for (auto deliveryman : auxVecDel) {
 
-        countStaff++;
-
         deliveryman.getShipping()->clearShipping();
 
-        for (size_t i = 0; i < auxVec.size(); i++) {
-            if (!deliveryman.getShipping()->isFull() && deliveryman.getShipping()->fits(auxVec[i]) && !auxVec[i].getUsed()) {
-                countPack--;
-                deliveryman.getShipping()->pushPackage(auxVec[i]);
-                cout << "Weight: " << deliveryman.getShipping()->getCurrentWeight() << " Volume: " << deliveryman.getShipping()->getCurrentVol() <<
-                " Cost: " << (deliveryman.getCost() - deliveryman.getShipping()->getCurrentReward()) << endl;
+        for (auto & i : auxVec) {
 
+            if (deliveryman.getShipping()->getPackages().empty()) continue;
+
+            if (!deliveryman.getShipping()->isFull() && deliveryman.getShipping()->fits(i) && !i.getUsed()) {
+                deliveryman.getShipping()->pushPackage(i);
             }
         }
-
-        if (deliveryman.getShipping()->getPackages().empty()) break;
-        cout << "--------------------------------------------------------------" << endl;
     }
 
     int total_profit = 0;
     for (auto tmp : auxVecDel) {
-        if (!tmp.getShipping()->getPackages().empty())
-            total_profit -= (tmp.getCost() - tmp.getShipping()->getCurrentReward());
+        if (!tmp.getShipping()->getPackages().empty()) {
+            if ((tmp.getCost() - tmp.getShipping()->getCurrentReward()) < 0) {
+                total_profit -= (tmp.getCost() - tmp.getShipping()->getCurrentReward());
+                countStaff++;
+                countPack -= tmp.getShipping()->getPackages().size();
+            }
+        }
     }
+
+    auto end = chrono::steady_clock::now();
+
+
+
+    cout << "To maximize profits, there were needed " << countStaff << " staff (out of " << deliverymans->size()
+         << " total) delivering packages, leaving " << countPack << " to deliver, the total profit was: " << total_profit << endl;
+
+    cout << "Algorithm execution time: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " (milli seconds)." << endl;
+
     return make_pair(total_profit, make_pair(countStaff, countPack));
 }
 
 vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & packages_) {
-
-    /*cout << "Weight: " << shipping.getCurrentWeight() << "Volume" << shipping.getCurrentVol() << endl;*/
 
     /** STOP CONDITION **/
     if (shipping.isFull()) return shipping.getPackages();
 
     vector<Package> res = shipping.getPackages();
 
-
-
     for (int i = 0; i < packages_.size(); i++) {
 
         if (!packages_[i].getUsed() && shipping.fits(packages_[i])) {
-           /* cout << packages_[i].getUsed() << " " << packages_[i].getWeight() << " " <<  packages_[i].getVolume() << endl;*/
 
             shipping.pushPackage(packages_[i]);
             packages_[i].setUsed(true);
@@ -218,7 +302,7 @@ vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & pa
 
             if (aux.size() > res.size()) {
                 res = aux;
-                /*if (res.size() == packages_.size()) return res;*/
+
             }
             else {
                 shipping.removePackage(packages_[i]);
@@ -230,6 +314,8 @@ vector<Package> Application::bestfitBT(Shipping & shipping, vector<Package> & pa
 }
 
 int Application::scenery3() {
+
+    auto start = chrono::steady_clock::now();
 
     vector<Package> auxVec;
     vector<Package> expressPackages;
@@ -256,6 +342,14 @@ int Application::scenery3() {
         }
         else break;
     }
+
+    int res =  (int)(((8 * 3600) - timeLeft) / expressPackages.size());
+
+    auto end = chrono::steady_clock::now();
+
+    cout << "From 9h00 to 17h00, delivering the packages with the lowest durations, you are able to deliver: " << res
+    << " packages, out of " <<  packages->size() << " in total (" << round(((double)res / packages->size()) * 100) << "%)." << endl;
+    cout << "Algorithm execution time: " << chrono::duration_cast<chrono::microseconds>(end - start).count() << " (micro seconds)." << endl;
 
     return (int)(((8 * 3600) - timeLeft) / expressPackages.size());
 }

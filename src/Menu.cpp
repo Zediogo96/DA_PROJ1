@@ -89,18 +89,13 @@ void Scenery1_Menu::display() {
 
     switch ((char) option) {
         case '1': {
-            pair<int, int> res = application->scenery1();
-            cout << "There were needed " << res.first << " delivery staff (out of " << application->getDeliveryManSize()
-                 << " total), and there were " <<
-                 res.second << " packages left to deliver." << endl;
-                 sleep(2);
+            Application::getInstance()->scenery1();
+            sleep(4);
             break;
         }
         case '2':
-            std::cout << "test2 \n";
-            break;
-        case '3':
-
+            Application::getInstance()->printDeliveryMan();
+            sleep(4);
             break;
         case '0': return;
         default: std::cout << "Invalid Input \n:";
@@ -132,77 +127,19 @@ void Scenery2_Menu::display() {
 
     switch ((char) option) {
         case '1': {
-            pair<int, pair<int,int>> res = Application::getInstance()->scenery2();
-            cout << "To maximize profits, there were needed " << res.second.first << " staff (out of " << application->getDeliveryManSize()
-            << " total) delivering packages, leaving " << res.second.second << " to deliver, the total profit was: " << res.first << endl;
-
-            sleep(2);
+            Application::getInstance()->scenery2();
+            sleep(4);
             break;
         }
         case '2':
-            std::cout << "test2 \n";
-            break;
-        case '3':
-
+            Application::getInstance()->printDeliveryMan();
+            sleep(4);
             break;
         case '0': return;
         default: std::cout << "Invalid Input \n:";
             system("pause");
     }
 
-}
-
-int Scenery1_Menu::Scenery1_alt(const vector<Package> &vecPack, const vector<DeliveryMan> &vecDel) {
-
-    size_t m = vecPack.size();
-
-    vector<Package> auxVecPack;
-    vector<DeliveryMan> auxVecDel;
-
-    auxVecPack.reserve(vecPack.size());
-    auxVecDel.reserve(vecDel.size());
-
-    for (Package tmp : vecPack) {
-        tmp.setUsed(false);
-        auxVecPack.emplace_back(tmp);
-    }
-
-    for (const auto& tmp : vecDel) {
-        auxVecDel.emplace_back(tmp);
-    }
-
-    int numberStaff = 0;
-
-    for (int i = 0; i < auxVecDel.size(); i++) {
-
-        unsigned remainingW = auxVecDel[i].getMaxWeight();
-        unsigned remainingV = auxVecDel[i].getMaxVolume();
-
-        for (auto & j : auxVecPack) {
-            if (!j.getUsed()) {
-                if (j.getWeight() > remainingW || j.getVolume() > remainingV) {
-                    numberStaff++;
-                    break;
-                }
-                else {
-                    remainingW -= j.getWeight();
-                    remainingV -= j.getVolume();
-
-                    cout << "[" << i << "]" << "RemW: " << remainingW << "; RemV: " << remainingV << endl;
-                    j.setUsed(true);
-                }
-            }
-        }
-    }
-
-    int cnt = 0;
-    for (const auto& tmp : auxVecPack) {
-        if (!tmp.getUsed()) cnt++;
-    }
-
-    cout << "cnt remaining packages: " << cnt << endl;
-
-    return numberStaff;
 }
 
 Scenery3_Menu::Scenery3_Menu(Application *application) : Menu(application) { }
@@ -220,7 +157,6 @@ void Scenery3_Menu::display() {
     cout << "|                                   |" << endl;
     cout << "|   [1] Exec                        |" << endl;
     cout << "|   [2] Print                       |" << endl;
-    cout << "|   [3]                             |" << endl;
     cout << "|                                   |" << endl;
     cout << "|   [0] Exit                        |" << endl;
     cout << "|___________________________________|" << endl;
@@ -230,12 +166,12 @@ void Scenery3_Menu::display() {
 
     switch ((char) option) {
         case '1':
-            cout << "From 9h00 to 17h00, delivering the packages with the lowest durations, you are able to deliver: " << application->scenery3()
-            << " packages, out of " << application->getPackagesSize() << " in total." << endl;
-            sleep(2);
+            Application::getInstance()->scenery3();
+            sleep(4);
             break;
         case '2':
-            std::cout << "test2 \n";
+            Application::getInstance()->printDeliveryMan();
+            sleep(4);
             break;
         case '0': return;
         default: std::cout << "Invalid Input \n:";

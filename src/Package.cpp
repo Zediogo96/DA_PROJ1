@@ -37,7 +37,11 @@ bool Package::getUsed() const {
 }
 
 double Package::average() const {
-    return (double) (weight + volume) / 2.0f;
+    return (double) weight / volume;
+}
+
+bool Package::isEqual(const Package& aPackage) const {
+    return (this->getWeight() == aPackage.getWeight() && this->getVolume() == aPackage.getVolume() && this->getDuration() == aPackage.getDuration() && this->getReward() == aPackage.getReward());
 }
 
 Package::~Package() = default;

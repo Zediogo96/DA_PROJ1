@@ -61,6 +61,8 @@ public:
     bool getUsed() const;
 
     double average() const;
+
+    bool isEqual(const Package& aPackage) const;
 };
 
 

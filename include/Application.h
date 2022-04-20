@@ -8,6 +8,10 @@
 #include "FileReader.h"
 #include <algorithm>
 
+#include <cmath>
+#include <chrono>
+#include <iomanip>
+
 class Application {
 
 protected:
@@ -61,6 +65,10 @@ public:
     vector<Package> bestfitBT(Shipping & shipping, vector<Package> & packages);
 
     void testSortDeliveryman(bool ascending);
+
+    static vector<int> knapsack_Scenery1(DeliveryMan &deliveryman, vector<Package> &  packages_);
+
+    void printDeliveryMan();
 };
 
 #endif //PROJETO1_APPLICATION_H
