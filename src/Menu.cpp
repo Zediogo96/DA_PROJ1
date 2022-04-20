@@ -12,7 +12,7 @@
 #endif
 
 
-Menu::Menu(Application * application) {};
+Menu::Menu() = default;;
 
 Menu::~Menu() = default;
 
@@ -22,7 +22,7 @@ void Menu::setNextMenu(Menu* new_menu) {
     this->next_menu = new_menu;
 }
 
-MainMenu::MainMenu(Application * application) : Menu(application) { }
+MainMenu::MainMenu() : Menu() { }
 
 void MainMenu::display() {
 
@@ -48,13 +48,13 @@ void MainMenu::display() {
 
     switch ((char) option) {
         case '1':
-            setNextMenu(new Scenery1_Menu(application));
+            setNextMenu(new Scenery1_Menu());
             break;
         case '2':
-            setNextMenu(new Scenery2_Menu(application));
+            setNextMenu(new Scenery2_Menu());
             break;
         case '3':
-            setNextMenu(new Scenery3_Menu(application));
+            setNextMenu(new Scenery3_Menu());
             break;
         case '0':
             setNextMenu(nullptr);
@@ -64,7 +64,7 @@ void MainMenu::display() {
     }
 }
 
-Scenery1_Menu::Scenery1_Menu(Application *application) : Menu(application) {}
+Scenery1_Menu::Scenery1_Menu() : Menu() {}
 
 void Scenery1_Menu::display() {
 
@@ -79,7 +79,6 @@ void Scenery1_Menu::display() {
     cout << "|                                   |" << endl;
     cout << "|   [1] Exec                        |" << endl;
     cout << "|   [2] Print                       |" << endl;
-    cout << "|   [3]                             |" << endl;
     cout << "|                                   |" << endl;
     cout << "|   [0] Exit                        |" << endl;
     cout << "|___________________________________|" << endl;
@@ -103,7 +102,7 @@ void Scenery1_Menu::display() {
     }
 }
 
-Scenery2_Menu::Scenery2_Menu(Application *application) : Menu(application) {}
+Scenery2_Menu::Scenery2_Menu() : Menu() {}
 
 void Scenery2_Menu::display() {
     char option;
@@ -117,7 +116,6 @@ void Scenery2_Menu::display() {
     cout << "|                                   |" << endl;
     cout << "|   [1] Exec                        |" << endl;
     cout << "|   [2] Print                       |" << endl;
-    cout << "|   [3]                             |" << endl;
     cout << "|                                   |" << endl;
     cout << "|   [0] Exit                        |" << endl;
     cout << "|___________________________________|" << endl;
@@ -127,7 +125,7 @@ void Scenery2_Menu::display() {
 
     switch ((char) option) {
         case '1': {
-            Application::getInstance()->scenery2();
+            this->application->scenery2();
             sleep(4);
             break;
         }
@@ -142,7 +140,7 @@ void Scenery2_Menu::display() {
 
 }
 
-Scenery3_Menu::Scenery3_Menu(Application *application) : Menu(application) { }
+Scenery3_Menu::Scenery3_Menu() : Menu() { }
 
 void Scenery3_Menu::display() {
 

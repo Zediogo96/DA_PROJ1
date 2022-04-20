@@ -17,7 +17,7 @@ protected:
     Menu * next_menu = nullptr;
 
 public:
-    explicit Menu(Application * application);
+    explicit Menu();
 
     virtual ~Menu();
 
@@ -32,23 +32,21 @@ public:
 
 class MainMenu: public Menu {
 public:
-    explicit MainMenu(Application * application);
+    explicit MainMenu();
     void display() override;
 };
 
 class Scenery1_Menu: public Menu {
 public:
 
-    explicit Scenery1_Menu(Application *application);
+    explicit Scenery1_Menu();
     void display() override;
-
-    static int Scenery1_alt(const vector<Package>& packages, const vector<DeliveryMan> & deliverymans);
 };
 
 class Scenery2_Menu: public Menu {
 public:
 
-    explicit Scenery2_Menu(Application *application);
+    explicit Scenery2_Menu();
     void display() override;
 
 };
@@ -57,10 +55,8 @@ public:
 class Scenery3_Menu: public Menu {
 public:
 
-    explicit Scenery3_Menu(Application *application);
+    explicit Scenery3_Menu();
     void display() override;
-
-    static int Scenery3(const vector<Package>& packages);
 };
 
 #endif //PROJETO1_MENU_H

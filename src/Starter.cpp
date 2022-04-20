@@ -6,7 +6,7 @@
 
 Starter::Starter() {
     application = Application::getInstance();
-    menuStack.push(new MainMenu(application));
+    menuStack.push(new MainMenu());
 }
 
 void Starter::start() {

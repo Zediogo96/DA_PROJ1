@@ -244,16 +244,11 @@ pair<int, pair <int, int>> Application::scenery2() {
     rewardSortPackages(true);
 
     vector<Package> auxVec = *packages;
-    vector<DeliveryMan> auxVecDel = *deliverymans;
 
     /** First loop should be always to iterate through all men? **/
-    for (auto deliveryman : auxVecDel) {
-
-        deliveryman.getShipping()->clearShipping();
+    for (auto deliveryman : *deliverymans) {
 
         for (auto & i : auxVec) {
-
-            if (deliveryman.getShipping()->getPackages().empty()) continue;
 
             if (!deliveryman.getShipping()->isFull() && deliveryman.getShipping()->fits(i) && !i.getUsed()) {
                 deliveryman.getShipping()->pushPackage(i);
@@ -262,7 +257,7 @@ pair<int, pair <int, int>> Application::scenery2() {
     }
 
     int total_profit = 0;
-    for (auto tmp : auxVecDel) {
+    for (auto tmp : *deliverymans) {
         if (!tmp.getShipping()->getPackages().empty()) {
             if ((tmp.getCost() - tmp.getShipping()->getCurrentReward()) < 0) {
                 total_profit -= (tmp.getCost() - tmp.getShipping()->getCurrentReward());
