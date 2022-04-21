@@ -93,7 +93,7 @@ void Scenery1_Menu::display() {
             break;
         }
         case '2':
-            Application::getInstance()->printDeliveryMan();
+            Application::getInstance()->printDeliveryMan(false);
             sleep(4);
             break;
         case '0': return;
@@ -130,7 +130,7 @@ void Scenery2_Menu::display() {
             break;
         }
         case '2':
-            Application::getInstance()->printDeliveryMan();
+            Application::getInstance()->printDeliveryMan(true);
             sleep(4);
             break;
         case '0': return;
@@ -168,7 +168,7 @@ void Scenery3_Menu::display() {
             sleep(4);
             break;
         case '2':
-            Application::getInstance()->printDeliveryMan();
+            Application::getInstance()->printDeliveryMan(false);
             sleep(4);
             break;
         case '0': return;

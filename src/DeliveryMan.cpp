@@ -30,7 +30,7 @@ Shipping *DeliveryMan::getShipping() {
     return this->shipping;
 }
 
-double DeliveryMan::average() const {
+double DeliveryMan::getDensity() const {
     return (double) maxWeight / maxVolume;
 }
 

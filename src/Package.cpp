@@ -36,7 +36,7 @@ bool Package::getUsed() const {
     return this->used;
 }
 
-double Package::average() const {
+double Package::getDensity() const {
     return (double) weight / volume;
 }
 

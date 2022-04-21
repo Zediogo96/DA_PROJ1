@@ -96,24 +96,24 @@ void Application::sorterPackages(bool ascending, bool volume) {
 void Application::testSortPackages(bool ascending) {
     if (!ascending) {
         sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
-            return a.average() > b.average();
+            return a.getDensity() > b.getDensity();
         });
     }
 
     sort(this->packages->begin(), this->packages->end(), [&](const Package& a, const Package& b) {
-        return a.average() < b.average();
+        return a.getDensity()< b.getDensity();
     });
 }
 
 void Application::testSortDeliveryman(bool ascending) {
     if (!ascending) {
         sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan& a, const DeliveryMan& b) {
-            return a.average() > b.average();
+            return a.getDensity() > b.getDensity();
         });
     }
 
     sort(this->deliverymans->begin(), this->deliverymans->end(), [&](const DeliveryMan& a, const DeliveryMan& b) {
-        return a.average() < b.average();
+        return a.getDensity() < b.getDensity();
     });
 }
 
@@ -293,7 +293,7 @@ pair<int, pair <int, int>> Application::scenery2() {
             aux.erase(aux.begin() + each);
         }
 
-        if ((del.getShipping()->getPackages().empty() == false) && (del.getCost() - del.getShipping()->getCurrentReward() <= 0)) {
+        if (!del.getShipping()->getPackages().empty() && (del.getCost() - del.getShipping()->getCurrentReward() <= 0)) {
             count_reward -= del.getCost();
             countStaff++;
             count_pack -= ((int)del.getShipping()->getPackages().size());
@@ -305,7 +305,7 @@ pair<int, pair <int, int>> Application::scenery2() {
 
 
     cout << "To maximize profits, there were needed " << countStaff << " staff (out of " << deliverymans->size()
-         << " total) delivering packages, leaving " << count_pack << " to deliver, the total profit was: " << count_reward << endl;
+         << " total) delivering packages, leaving " << count_pack << " to deliver, the total profit was: " << count_reward << " €." << endl;
 
     cout << "Algorithm execution time: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " (milli seconds)." << endl;
 
@@ -376,13 +376,14 @@ int Application::scenery3() {
     auto end = chrono::steady_clock::now();
 
     cout << "From 9h00 to 17h00, delivering the packages with the lowest durations, you are able to deliver: " << res
-    << " packages, out of " <<  packages->size() << " in total (" << round(((double)res / packages->size()) * 100) << "%)." << endl;
+    << " express packages, out of " <<  packages->size() << " in total (" << round(((double)res / packages->size()) * 100) << "%)." << endl;
+
     cout << "Algorithm execution time: " << chrono::duration_cast<chrono::microseconds>(end - start).count() << " (micro seconds)." << endl;
 
     return (int)(((8 * 3600) - timeLeft) / expressPackages.size());
 }
 
-void Application::printDeliveryMan() {
+void Application::printDeliveryMan(bool scen2) {
     double averageV_load = 0 , averageW_load = 0;
     int total = 0;
 
@@ -394,6 +395,13 @@ void Application::printDeliveryMan() {
             averageV_load += deliverymans->at(i).getVolumeLoad();
             averageW_load += deliverymans->at(i).getWeightLoad();
 
+            if (scen2) {
+                if (deliverymans->at(i).getCost() - deliverymans->at(i).getShipping()->getCurrentReward() <= 0) {
+                    total--;
+                    averageV_load -= deliverymans->at(i).getVolumeLoad();
+                    averageW_load -= deliverymans->at(i).getWeightLoad();
+                }
+            }
 
             cout << "[" << setw(2) << i << "] [Current Weight: " << setw(3)
                  << deliverymans->at(i).getShipping()->getCurrentWeight() << "/" << deliverymans->at(i).getMaxWeight()
@@ -405,5 +413,3 @@ void Application::printDeliveryMan() {
     }
     cout << endl << setw(2) << "[Average Weight Load: " << averageV_load / total << "% ] [Average Volume Load: " << round(averageW_load / total) << "% ]"<< endl;
 }
-
-

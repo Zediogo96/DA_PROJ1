@@ -13,6 +13,9 @@
 
 using namespace std;
 
+/**
+ * @brief Class that facilitates the start of our program
+ */
 class Starter {
 
 private:
@@ -22,8 +25,16 @@ private:
 
 public:
 
+    /**
+     * @brief Default constructor that pushed the Main Menu to the stack
+     * 
+     */
     Starter();
 
+    /**
+     * @brief Starts the application loop, loads all the data from the files to application before
+     * 
+     */
     void start();
 
 };
