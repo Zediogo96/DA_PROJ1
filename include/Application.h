@@ -43,9 +43,9 @@ public:
 
     size_t getPackagesSize();
 
-    void sorterDeliveryMans(bool ascending);
+    void sorterDeliveryMans(bool ascending, bool volume);
 
-    void sorterPackages(bool ascending);
+    void sorterPackages(bool ascending, bool volume);
 
     void testSortPackages(bool ascending);
 
@@ -69,6 +69,8 @@ public:
     static vector<int> knapsack_Scenery1(DeliveryMan &deliveryman, vector<Package> &  packages_);
 
     void printDeliveryMan();
+
+    static vector<int> knapsack_Scenery2(DeliveryMan &deliveryman, vector<Package> &packages_);
 };
 
 #endif //PROJETO1_APPLICATION_H
