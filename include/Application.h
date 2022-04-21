@@ -171,6 +171,10 @@ public:
     /**
      * @brief Function used to maximize the number of packages a single delivery man can deliver within a 8 hour timeframe (from 9h00 to 17h00)
      * 
+     *        Time Complexity: O(N), because it is a linear greedy algorithm depending only on the number of packages
+     *         
+     *        Space Complexity: O(N), because we use an auxiliar vector to store the packages
+     * 
      * @return int Number of express packages delivered
      */
     int scenery3();
